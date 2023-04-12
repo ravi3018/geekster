@@ -1,0 +1,29 @@
+import java.net.*;
+import java.io.*;
+import org.json.*;
+
+public class ChuckNorrisJoke {
+    public static void main(String[] args) {
+        try {
+            URL url = new URL("https://api.chucknorris.io/jokes/random");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept", "application/json");
+
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream()));
+            String output;
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((output = bufferedReader.readLine()) != null) {
+                stringBuilder.append(output);
+            }
+            connection.disconnect();
+
+            JSONObject jsonObject = new JSONObject(stringBuilder.toString());
+            String joke = jsonObject.getString("value");
+            System.out.println("Chuck Norris Joke: " + joke);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
