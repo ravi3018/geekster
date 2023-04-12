@@ -1,0 +1,37 @@
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ZipCodeLookup {
+
+    public static void main(String[] args) {
+        try {
+            // Create URL object
+            URL url = new URL("https://api.zippopotam.us/us/33162");
+
+            // Open HTTP connection
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+            // Set request method
+            con.setRequestMethod("GET");
+
+            // Get input stream
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+
+            // Read response into StringBuilder
+            StringBuilder response = new StringBuilder();
+            String line;
+            while ((line = in.readLine()) != null) {
+                response.append(line);
+            }
+            in.close();
+
+            // Print response in JSON format
+            System.out.println(response.toString());
+
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+}
